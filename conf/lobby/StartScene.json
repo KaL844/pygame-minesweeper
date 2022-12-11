@@ -1,0 +1,8 @@
+{
+    "startBtn": {
+        "x": 250,
+        "y": 200,
+        "text": "Start",
+        "anchor": "MID_CENTER"
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "boardPanel": {
+        "height": 400,
+        "width": 400,
+        "x": 250,
+        "y": 250,
+        "anchor": "MID_CENTER"
+    }, 
+    "switchBtn": {
+        
+    }
+}
