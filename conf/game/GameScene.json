@@ -6,7 +6,34 @@
         "y": 250,
         "anchor": "MID_CENTER"
     }, 
+
     "switchBtn": {
-        
+        "text": "Switch",
+        "x": 0,
+        "y": 0
+    },
+
+    "modeLabel": {
+        "x": 300,
+        "y": 0
+    },
+
+    "endGamePanel": {
+        "x": 250,
+        "y": 250,
+        "width": 500,
+        "height": 500,
+        "anchor": "MID_CENTER",
+        "backgroundColor": [0, 0, 0, 200],
+        "isVisible": false,
+        "children": {
+            "returnBtn": {
+                "component": "Button",
+                "text": "Return",
+                "x": 250,
+                "y": 250,
+                "anchor": "MID_CENTER"
+            }
+        }
     }
 }

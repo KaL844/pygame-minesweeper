@@ -1,7 +1,7 @@
 import pygame
 from components.button import Button
 from components.label import Label
-from components.scene import Scene
+from components.scene import Scene, SceneManager
 from components.panel import Panel
 from components.shape import Line
 from modules.game.logic import GameLogic
@@ -20,15 +20,26 @@ class GameScene(Scene):
 
         self.logic = GameLogic()
         self.isDigging = True
+        self.isRunning = True
         self.switchBtn = Button(conf=self.conf["switchBtn"])
         self.boardPanel = Panel(conf=self.conf["boardPanel"])
+        self.modeLabel = Label(conf=self.conf["modeLabel"])
+        self.modeLabel.setText("Dig" if self.isDigging else "Flag")
+
+        self.endGamePanel: Panel = Panel(conf=self.conf["endGamePanel"])
+        self.returnBtn: Button = self.endGamePanel.getChild("returnBtn")
+
+        self.init()
+
+    def init(self) -> None:
+        self.sceneMgr = SceneManager.getInstance()
+        self.returnBtn.addEventListener(MouseEvent.ON_TOUCH_END, self.onReturnClick)
+        self.boardPanel.addEventListener(MouseEvent.ON_TOUCH_END, self.onBoardClick)
+        self.switchBtn.addEventListener(MouseEvent.ON_TOUCH_END, self.onSwitchClick)
         self.width, self.height = self.boardPanel.getSize()
         self.cellWidth, self.cellHeight = self.width // GameLogic.BOARD_COLS, self.height // GameLogic.BOARD_ROWS
         self.addLines()
         self.addValues()
-
-        self.boardPanel.addEventListener(MouseEvent.ON_TOUCH_END, self.onBoardClick)
-        self.switchBtn.addEventListener(MouseEvent.ON_TOUCH_END, self.onSwitchClick)
 
     def addLines(self) -> None:
         for i in range(GameLogic.BOARD_COLS + 1):
@@ -51,8 +62,12 @@ class GameScene(Scene):
 
         self.boardPanel.draw(screen)
         self.switchBtn.draw(screen)
+        self.modeLabel.draw(screen)
+        self.endGamePanel.draw(screen)
 
     def onBoardClick(self, context: MouseEventContext) -> None:
+        if not self.isRunning: return
+
         x, y = context['x'], context['y']
         localX, localY = self.boardPanel.getLocalPosition(x, y)
         row, col = localY // self.cellHeight, localX // self.cellWidth
@@ -76,8 +91,15 @@ class GameScene(Scene):
             return
 
     def onSwitchClick(self, _: MouseEventContext) -> None:
+        if not self.isRunning: return
         self.isDigging = not self.isDigging
+        self.modeLabel.setText("Dig" if self.isDigging else "Flag")
+
+    def onReturnClick(self, _: MouseEventContext) -> None:
+        self.sceneMgr.clear()
+        from modules.lobby.scenes import StartScene
+        self.sceneMgr.push(StartScene())
 
     def endGame(self) -> None:
-        print("END GAME, YOU SUCKS!!")
-        pass
+        self.isRunning = False
+        self.endGamePanel.setVisible(True)
