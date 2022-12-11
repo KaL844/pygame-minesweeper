@@ -48,10 +48,11 @@ class GameLogic:
         return self.board[row][col]
 
     def dig(self, row: int, col: int, cells: list[tuple[int, int]]) -> bool:
-        if self.board[row][col] == GameLogic.BOMB_VALUE: return False
-
         cells.append((row, col))
         self.dugCells.add((row, col))
+
+        if self.board[row][col] == GameLogic.BOMB_VALUE: return False
+
         if self.board[row][col] != 0: return True
         for i in range(max(0, row - 1), min(len(self.board), row + 2)):
             for j in range(max(0, col - 1), min(len(self.board[row]), col + 2)):

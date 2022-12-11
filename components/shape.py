@@ -20,7 +20,7 @@ class Line(Component):
     DEFAULT_END_X = 0
     DEFAULT_END_Y = 0
     DEFAULT_WIDTH = 0
-    DEFAULT_COLOR = (0, 0, 0)
+    DEFAULT_COLOR = (255, 255, 255)
     DEFAULT_VISIBLE = True
 
     def __init__(self, conf: LineConf) -> None:

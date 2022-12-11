@@ -24,8 +24,6 @@ class GameScene(Scene):
         self.switchBtn = Button(conf=self.conf["switchBtn"])
         self.boardPanel = Panel(conf=self.conf["boardPanel"])
         self.modeLabel = Label(conf=self.conf["modeLabel"])
-        self.modeLabel.setText("Dig" if self.isDigging else "Flag")
-
         self.endGamePanel: Panel = Panel(conf=self.conf["endGamePanel"])
         self.returnBtn: Button = self.endGamePanel.getChild("returnBtn")
 
@@ -33,6 +31,7 @@ class GameScene(Scene):
 
     def init(self) -> None:
         self.sceneMgr = SceneManager.getInstance()
+        self.modeLabel.setText("Dig" if self.isDigging else "Flag")
         self.returnBtn.addEventListener(MouseEvent.ON_TOUCH_END, self.onReturnClick)
         self.boardPanel.addEventListener(MouseEvent.ON_TOUCH_END, self.onBoardClick)
         self.switchBtn.addEventListener(MouseEvent.ON_TOUCH_END, self.onSwitchClick)

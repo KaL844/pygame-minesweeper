@@ -10,16 +10,16 @@ pygame.init()
 class LabelConf(TypedDict):
     x: int; y: int; z: int
     color: tuple[int, int, int]
-    font: pygame.font.Font
     text: str
     isSmooth: bool
     anchor: AlignType
+    fontSize: int
     isVisible: bool
 
 class Label(Component):
     DEFAULT_TEXT = ""
     DEFAULT_COLOR = (255, 255, 255)
-    DEFAULT_FONT = pygame.font.Font(None, 20)
+    DEFAULT_FONT_SIZE = 20
     DEFAULT_SMOOTH = True
     DEFAULT_X = 0
     DEFAULT_Y = 0
@@ -34,9 +34,8 @@ class Label(Component):
         self.color = tuple(conf["color"]) if "color" in conf else Label.DEFAULT_COLOR
         self.isSmooth = conf["isSmooth"] if "isSmooth" in conf else Label.DEFAULT_SMOOTH
         self.anchor = AlignType[conf["anchor"]] if "anchor" in conf else Label.DEFAULT_ANCHOR
-        self.font = Label.DEFAULT_FONT
-
-        self.font = self.font
+        self.fontSize = conf["fontSize"] if "fontSize" in conf else Label.DEFAULT_FONT_SIZE
+        self.font = pygame.font.Font(None, self.fontSize)
 
     def draw(self, screen: pygame.surface.Surface) -> None:
         if not self.isVisible: return
